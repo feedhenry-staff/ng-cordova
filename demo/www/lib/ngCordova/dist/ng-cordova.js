@@ -364,14 +364,14 @@ angular.module('ngCordova.plugins.barcodeScanner', [])
   .factory('$cordovaBarcodeScanner', ['$q', function ($q) {
 
     return {
-      scan: function () {
+      scan: function (config) {
         var q = $q.defer();
 
         cordova.plugins.barcodeScanner.scan(function (result) {
           q.resolve(result);
         }, function (err) {
           q.reject(err);
-        });
+        }, config);
 
         return q.promise;
       },
@@ -3756,6 +3756,22 @@ angular.module('ngCordova.plugins.inAppBrowser', [])
     }];
   }]);
 
+// install  :     cordova plugin add https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git
+// link     :     https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin
+angular.module('ngCordova.plugins.insomnia', [])
+
+  .factory('$cordovaInsomnia', ['$window', function ($window) {
+
+    return {
+      keepAwake: function () {
+        return $window.plugins.insomnia.keepAwake();
+      },
+      allowSleepAgain: function () {
+        return $window.plugins.insomnia.allowSleepAgain();
+      }
+    }
+
+  }]);
 // install   :      cordova plugin add https://github.com/driftyco/ionic-plugins-keyboard.git
 // link      :      https://github.com/driftyco/ionic-plugins-keyboard
 
@@ -4147,6 +4163,8 @@ angular.module('ngCordova.plugins.media', [])
           media.stopRecord();
         };
 
+        q.promise.media = media;
+
         return q.promise;
       }
     };
@@ -4325,7 +4343,8 @@ angular.module('ngCordova.plugins', [
   'ngCordova.plugins.touchid',
   'ngCordova.plugins.vibration',
   'ngCordova.plugins.videoCapturePlus',
-  'ngCordova.plugins.zip'
+  'ngCordova.plugins.zip',
+  'ngCordova.plugins.insomnia'
 ]);
 
 // install  :     cordova plugin add https://github.com/floatinghotpot/cordova-plugin-mopub.git
